@@ -77,4 +77,6 @@ private:
 
 	UPROPERTY()
 		class UABAnimInstance* ABAnim;
+
+
 };

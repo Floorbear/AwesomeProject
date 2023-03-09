@@ -4,6 +4,7 @@
 #include "ABCharacter.h"
 #include "ABAnimInstance.h"
 #include "DrawDebugHelpers.h"
+#include "ABWeapon.h"
 
 // Sets default values
 AABCharacter::AABCharacter()
@@ -107,7 +108,8 @@ void AABCharacter::PostInitializeComponents()
 {
 	Super::PostInitializeComponents();
 
-	//생성자에 이거 하면 ABAnim = nullptr 됨.
+	//AnimInstance 관련
+	//생성자에 이거 하면 AnimInstance = nullptr 됨.
 	auto AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance != nullptr)
 	{
@@ -126,6 +128,12 @@ void AABCharacter::PostInitializeComponents()
 		});
 	ABAnim->NotifyHitCheckDelegate.AddUObject(this,&AABCharacter::HitCheck);
 	ABAnim->OnMontageEnded.AddDynamic(this, &AABCharacter::OnAttackMontageEnd);
+
+	//WeaponMesh 관련
+	auto WeaponActor = GetWorld()->SpawnActor<AABWeapon>();
+	check(WeaponActor != nullptr);
+	FName WeaponSocket_Name = TEXT("WeaponHand");
+	WeaponActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket_Name);
 }
 
 // Called every frame
