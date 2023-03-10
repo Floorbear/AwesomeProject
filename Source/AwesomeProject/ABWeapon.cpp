@@ -10,6 +10,7 @@ AABWeapon::AABWeapon()
 	PrimaryActorTick.bCanEverTick = false;
 
 	mWeaponMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("WEAPONMESH"));
+	RootComponent = mWeaponMesh;
 
 	static ConstructorHelpers::FObjectFinder<USkeletalMesh> WeaponMesh(TEXT("/Game/InfinityBladeWeapons/Weapons/Blade/Swords/Blade_BlackKnight/SK_Blade_BlackKnight.SK_Blade_BlackKnight"));
 	if (WeaponMesh.Succeeded() == true)

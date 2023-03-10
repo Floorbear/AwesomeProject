@@ -79,4 +79,12 @@ private:
 		class UABAnimInstance* ABAnim;
 
 
+	//Weapon 관련
+public:
+	void SetWeapon(class AABWeapon* _WeaponActor);
+	bool CanPickUpWeapon();
+
+private:
+	UPROPERTY(VisibleAnywhere, Category = Weapon)
+	class AABWeapon* acWeapon = nullptr;
 };

@@ -129,11 +129,6 @@ void AABCharacter::PostInitializeComponents()
 	ABAnim->NotifyHitCheckDelegate.AddUObject(this,&AABCharacter::HitCheck);
 	ABAnim->OnMontageEnded.AddDynamic(this, &AABCharacter::OnAttackMontageEnd);
 
-	//WeaponMesh 관련
-	auto WeaponActor = GetWorld()->SpawnActor<AABWeapon>();
-	check(WeaponActor != nullptr);
-	FName WeaponSocket_Name = TEXT("WeaponHand");
-	WeaponActor->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocket_Name);
 }
 
 // Called every frame
@@ -307,5 +302,29 @@ void AABCharacter::OnAttackMontageEnd(UAnimMontage* _Mon, bool _Inter)
 	IsAttacking = false;
 	IsInputOn = false;
 	CurrentCombo = 1;
+}
+
+void AABCharacter::SetWeapon(AABWeapon* _WeaponActor)
+{
+	if (CanPickUpWeapon() == false)
+	{
+		return;
+	}
+
+	//WeaponMesh 관련
+	FName WeaponSocketName = TEXT("WeaponHand");
+	acWeapon = _WeaponActor;
+	acWeapon->SetOwner(this);
+	acWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::SnapToTargetNotIncludingScale, WeaponSocketName);
+}
+
+bool AABCharacter::CanPickUpWeapon()
+{
+	if (acWeapon == nullptr)
+	{
+		return true;
+	}
+	
+	return false;
 }
 
